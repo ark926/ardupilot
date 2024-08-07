@@ -1,3 +1,4 @@
+
 /*
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1250,16 +1251,48 @@ void AP_MotorsMatrix::setup_motors(motor_frame_class frame_class, motor_frame_ty
     set_initialised_ok(false);
     bool success = true;
 
-    add_motor_raw(0,  0.9511,  0.309, -1,  1);
-    add_motor_raw(1,  0.5878,  0.809,  1,  2);
-    add_motor_raw(2,  0,      1, -1,  3);
-    add_motor_raw(3, -0.5878,  0.809,  1,  4);
-    add_motor_raw(4, -0.9511,  0.309, -1,  5);
-    add_motor_raw(5, -0.9511, -0.309,  1,  6);
-    add_motor_raw(6, -0.5878, -0.809, -1,  7);
-    add_motor_raw(7,  0,     -1,  1,  8);
-    add_motor_raw(8,  0.5878, -0.809, -1,  9);
-    add_motor_raw(9,  0.9511, -0.309,  1, 10);
+    switch (frame_class) {
+#if AP_MOTORS_FRAME_QUAD_ENABLED
+    case MOTOR_FRAME_QUAD:
+        success = setup_quad_matrix(frame_type);
+        break;  // quad
+#endif //AP_MOTORS_FRAME_QUAD_ENABLED
+#if AP_MOTORS_FRAME_HEXA_ENABLED
+    case MOTOR_FRAME_HEXA:
+        success = setup_hexa_matrix(frame_type);
+        break;
+#endif //AP_MOTORS_FRAME_HEXA_ENABLED
+#if AP_MOTORS_FRAME_OCTA_ENABLED
+    case MOTOR_FRAME_OCTA:
+        success = setup_octa_matrix(frame_type);
+        break;
+#endif //AP_MOTORS_FRAME_OCTA_ENABLED
+#if AP_MOTORS_FRAME_OCTAQUAD_ENABLED
+    case MOTOR_FRAME_OCTAQUAD:
+        success = setup_octaquad_matrix(frame_type);
+        break;
+#endif //AP_MOTORS_FRAME_OCTAQUAD_ENABLED
+#if AP_MOTORS_FRAME_DODECAHEXA_ENABLED
+    case MOTOR_FRAME_DODECAHEXA:
+        success = setup_dodecahexa_matrix(frame_type);
+        break;
+#endif //AP_MOTORS_FRAME_DODECAHEXA_ENABLED
+#if AP_MOTORS_FRAME_Y6_ENABLED
+    case MOTOR_FRAME_Y6:
+        success = setup_y6_matrix(frame_type);
+        break;
+#endif //AP_MOTORS_FRAME_Y6_ENABLED
+#if AP_MOTORS_FRAME_DECA_ENABLED
+    case MOTOR_FRAME_DECA:
+        success = setup_deca_matrix(frame_type);
+        break;
+#endif //AP_MOTORS_FRAME_DECA_ENABLED
+    default:
+        // matrix doesn't support the configured class
+        success = false;
+        _mav_type = MAV_TYPE_GENERIC;
+        break;
+    } // switch frame_class
 
     // normalise factors to magnitude 0.5
     normalise_rpy_factors();
@@ -1267,6 +1300,7 @@ void AP_MotorsMatrix::setup_motors(motor_frame_class frame_class, motor_frame_ty
     if (!success) {
         _frame_class_string = "UNSUPPORTED";
     }
+    
     set_initialised_ok(success);
 }
 
