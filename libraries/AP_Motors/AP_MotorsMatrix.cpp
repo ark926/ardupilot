@@ -1250,18 +1250,16 @@ void AP_MotorsMatrix::setup_motors(motor_frame_class frame_class, motor_frame_ty
     set_initialised_ok(false);
     bool success = true;
 
-    add_motor_raw(0,   0.156, -0.988,  1,  1)
-    add_motor_raw(1,   0.777, -0.629, -1,  2)
-    add_motor_raw(2,   1,      0,      1,  3)
-    add_motor_raw(3,   0.777,  0.629, -1,  4)
-    add_motor_raw(4,   0.156,  0.988,  1,  5)
-    add_motor_raw(5,  -0.156,  0.988, -1,  6)
-    add_motor_raw(6,  -1,      0,      1,  7)
-    add_motor_raw(7,  -0.777, -0.629, -1,  8)
-    add_motor_raw(8,  -0.777,  0.629,  1,  9)
-    add_motor_raw(9,  -0.156, -0.988, -1, 10)
-    add_motor_raw(10,  0,     -0.5,    1, 11)
-    add_motor_raw(11,  0,      0.5,   -1, 12)
+    add_motor_raw(0,  0.9511,  0.309, -1,  1);
+    add_motor_raw(1,  0.5878,  0.809,  1,  2);
+    add_motor_raw(2,  0,      1, -1,  3);
+    add_motor_raw(3, -0.5878,  0.809,  1,  4);
+    add_motor_raw(4, -0.9511,  0.309, -1,  5);
+    add_motor_raw(5, -0.9511, -0.309,  1,  6);
+    add_motor_raw(6, -0.5878, -0.809, -1,  7);
+    add_motor_raw(7,  0,     -1,  1,  8);
+    add_motor_raw(8,  0.5878, -0.809, -1,  9);
+    add_motor_raw(9,  0.9511, -0.309,  1, 10);
 
     // normalise factors to magnitude 0.5
     normalise_rpy_factors();
