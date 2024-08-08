@@ -1248,60 +1248,23 @@ void AP_MotorsMatrix::setup_motors(motor_frame_class frame_class, motor_frame_ty
     for (int8_t i = 0; i < AP_MOTORS_MAX_NUM_MOTORS; i++) {
         remove_motor(i);
     }
-    set_initialised_ok(false);
-    bool success = true;
+    set_initialised_ok(true);
 
-    switch (frame_class) {
-#if AP_MOTORS_FRAME_QUAD_ENABLED
-    case MOTOR_FRAME_QUAD:
-        success = setup_quad_matrix(frame_type);
-        break;  // quad
-#endif //AP_MOTORS_FRAME_QUAD_ENABLED
-#if AP_MOTORS_FRAME_HEXA_ENABLED
-    case MOTOR_FRAME_HEXA:
-        success = setup_hexa_matrix(frame_type);
-        break;
-#endif //AP_MOTORS_FRAME_HEXA_ENABLED
-#if AP_MOTORS_FRAME_OCTA_ENABLED
-    case MOTOR_FRAME_OCTA:
-        success = setup_octa_matrix(frame_type);
-        break;
-#endif //AP_MOTORS_FRAME_OCTA_ENABLED
-#if AP_MOTORS_FRAME_OCTAQUAD_ENABLED
-    case MOTOR_FRAME_OCTAQUAD:
-        success = setup_octaquad_matrix(frame_type);
-        break;
-#endif //AP_MOTORS_FRAME_OCTAQUAD_ENABLED
-#if AP_MOTORS_FRAME_DODECAHEXA_ENABLED
-    case MOTOR_FRAME_DODECAHEXA:
-        success = setup_dodecahexa_matrix(frame_type);
-        break;
-#endif //AP_MOTORS_FRAME_DODECAHEXA_ENABLED
-#if AP_MOTORS_FRAME_Y6_ENABLED
-    case MOTOR_FRAME_Y6:
-        success = setup_y6_matrix(frame_type);
-        break;
-#endif //AP_MOTORS_FRAME_Y6_ENABLED
-#if AP_MOTORS_FRAME_DECA_ENABLED
-    case MOTOR_FRAME_DECA:
-        success = setup_deca_matrix(frame_type);
-        break;
-#endif //AP_MOTORS_FRAME_DECA_ENABLED
-    default:
-        // matrix doesn't support the configured class
-        success = false;
-        _mav_type = MAV_TYPE_GENERIC;
-        break;
-    } // switch frame_class
+    add_motor_raw(motors, 0, -0.309, 0.9511, -1, 1);
+    add_motor_raw(motors, 1, -0.809, 0.5878, 1, 2);
+    add_motor_raw(motors, 2, -1.0, 0.0, -1, 3);
+    add_motor_raw(motors, 3, -0.809, -0.5878, 1, 4);
+    add_motor_raw(motors, 4, -0.309, -0.9511, -1, 5);
+    add_motor_raw(motors, 5, 0.309, -0.9511, 1, 6);
+    add_motor_raw(motors, 6, 0.809, -0.5878, -1, 7);
+    add_motor_raw(motors, 7, 1.0, 0.0, 1, 8);
+    add_motor_raw(motors, 8, 0.809, 0.5878, -1, 9);
+    add_motor_raw(motors, 9, 0.309, 0.9511, 1, 10);
 
     // normalise factors to magnitude 0.5
     normalise_rpy_factors();
 
-    if (!success) {
-        _frame_class_string = "UNSUPPORTED";
-    }
     
-    set_initialised_ok(success);
 }
 
 // normalizes the roll, pitch and yaw factors so maximum magnitude is 0.5
