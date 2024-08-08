@@ -1119,18 +1119,21 @@ bool AP_MotorsMatrix::setup_dodecahexa_matrix(motor_frame_type frame_type)
     }
     case MOTOR_FRAME_TYPE_X: {
         _frame_type_string = "X";
-        add_motor_raw(motors, 0, -0.309, 0.9511, -1, 1);
-        add_motor_raw(motors, 1, -0.809, 0.5878, 1, 2);
-        add_motor_raw(motors, 2, -1.0, 0.0, -1, 3);
-        add_motor_raw(motors, 3, -0.809, -0.5878, 1, 4);
-        add_motor_raw(motors, 4, -0.309, -0.9511, -1, 5);
-        add_motor_raw(motors, 5, 0.309, -0.9511, 1, 6);
-        add_motor_raw(motors, 6, 0.809, -0.5878, -1, 7);
-        add_motor_raw(motors, 7, 1.0, 0.0, 1, 8);
-        add_motor_raw(motors, 8, 0.809, 0.5878, -1, 9);
-        add_motor_raw(motors, 9, 0.309, 0.9511, 1, 10);
-        add_motor_raw(motors, 10, 0, 0, -1, 11);
-        add_motor_raw(motors, 11, 0, 0, 1, 12);
+        static const AP_MotorsMatrix::MotorDefRaw motors[] = {
+            { -0.309f,  0.9511f, AP_MOTORS_MATRIX_YAW_FACTOR_CCW,  1 },
+            { -0.809f,  0.5878f, AP_MOTORS_MATRIX_YAW_FACTOR_CW,   2 },
+            { -1.0f,    0.0f,    AP_MOTORS_MATRIX_YAW_FACTOR_CCW,  3 },
+            { -0.809f, -0.5878f, AP_MOTORS_MATRIX_YAW_FACTOR_CW,   4 },
+            { -0.309f, -0.9511f, AP_MOTORS_MATRIX_YAW_FACTOR_CCW,  5 },
+            {  0.309f, -0.9511f, AP_MOTORS_MATRIX_YAW_FACTOR_CW,   6 },
+            {  0.809f, -0.5878f, AP_MOTORS_MATRIX_YAW_FACTOR_CCW,  7 },
+            {  1.0f,    0.0f,    AP_MOTORS_MATRIX_YAW_FACTOR_CW,   8 },
+            {  0.809f,  0.5878f, AP_MOTORS_MATRIX_YAW_FACTOR_CCW,  9 },
+            {  0.309f,  0.9511f, AP_MOTORS_MATRIX_YAW_FACTOR_CW,  10 },
+            {  0.0f,    0.0f,    AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 11 },
+            {  0.0f,    0.0f,    AP_MOTORS_MATRIX_YAW_FACTOR_CW,  12 },
+        };
+        add_motors_raw(motors, ARRAY_SIZE(motors));
         break;
     }
     default:
